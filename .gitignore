@@ -1,1 +1,4 @@
 .idea/*
+coinranker-web/railways.cache
+coinranker-web/tmp/*
+coinranker-web/*.iml
