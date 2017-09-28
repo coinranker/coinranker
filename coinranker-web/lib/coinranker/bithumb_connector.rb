@@ -9,7 +9,7 @@ module BithumbConnector
     def request(end_point = '/info/account', request_params = {}, api_key = '', secret_key = '')
       url = "#{BITHUMB_URL}#{end_point}"
 
-      nonce = DateTime.now.strftime('%Q')
+      nonce = (Time.now.to_f * 1000).to_i
       payload_str = payload_str(end_point, request_params, nonce)
 
       params = { endpoint: end_point }
@@ -17,6 +17,7 @@ module BithumbConnector
       head = header(api_key, signature(secret_key, payload_str), nonce)
 
       response = HttpPersistent.post(url, params, head)
+
       return nil if response.status != 200
 
       JSON.parse(response.body)
@@ -36,8 +37,8 @@ module BithumbConnector
     def query_str(end_point, request_params)
       result_str = "endpoint=#{end_point}"
       if request_params.present?
-        result_str << '&'
         request_params.each_key do |key|
+          result_str << '&'
           result_str << key.to_s
           result_str << '='
           result_str << request_params[key]
