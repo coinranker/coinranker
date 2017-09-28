@@ -25,10 +25,6 @@ module BithumbConnector
       puts e.message
     end
 
-    def test_query_str(hash)
-      query_str('/info/account', hash)
-    end
-
     private
     def payload_str(end_point, request_params, nonce)
       "#{end_point};#{query_str(end_point, request_params)};#{nonce}"
